@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:ppam_responsi/components/icon.dart';
 import 'package:ppam_responsi/components/input.dart';
 import 'package:ppam_responsi/components/text.dart';
+import 'package:ppam_responsi/model/user.dart';
 import 'package:ppam_responsi/pages/page_login.dart';
 
 class PageRegister extends StatefulWidget {
@@ -68,7 +70,8 @@ class _PageRegisterState extends State<PageRegister> {
               const SizedBox(height: 32),
               FilledButton(
                 child: const Text("Daftar"),
-                onPressed: () {
+                onPressed: () async {
+                  // Check if password match
                   if (!_isPasswordMatch()) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -77,6 +80,41 @@ class _PageRegisterState extends State<PageRegister> {
                     );
                     return;
                   }
+
+                  // Check if email already registered
+                  var box = await Hive.openBox('user');
+                  if (box.containsKey(_emailController.text)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Email sudah terdaftar"),
+                      ),
+                    );
+                    return;
+                  }
+
+                  await box.put(
+                    _emailController.text,
+                    User(
+                      email: _emailController.text,
+                      name: _nameController.text,
+                      password: _passwordController.text,
+                    ),
+                  );
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Registrasi berhasil"),
+                    ),
+                  );
+
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PageLogin(),
+                    ),
+                  );
+
+                  box.close();
                 },
               ),
               TextButton(

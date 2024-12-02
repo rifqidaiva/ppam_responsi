@@ -6,8 +6,6 @@ import 'package:ppam_responsi/pages/page_login.dart';
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(UserAdapter());
-  await Hive.openBox<User>('user');
-
   runApp(const MyApp());
 }
 
