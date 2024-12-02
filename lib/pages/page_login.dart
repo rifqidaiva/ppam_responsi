@@ -59,18 +59,6 @@ class _PageLoginState extends State<PageLogin> {
                   if (box.values.any((element) =>
                       element.email == _emailController.text &&
                       element.password == _passwordController.text)) {
-                    var name = box.values
-                        .firstWhere(
-                          (element) => element.email == _emailController.text,
-                        )
-                        .name;
-
-                    var favorite = box.values
-                        .firstWhere(
-                          (element) => element.email == _emailController.text,
-                        )
-                        .favorite;
-
                     box.close();
 
                     // jika sudah terdaftar, maka arahkan ke halaman utama
