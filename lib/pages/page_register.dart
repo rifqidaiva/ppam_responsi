@@ -98,6 +98,7 @@ class _PageRegisterState extends State<PageRegister> {
                       email: _emailController.text,
                       name: _nameController.text,
                       password: _passwordController.text,
+                      favorite: [],
                     ),
                   );
 

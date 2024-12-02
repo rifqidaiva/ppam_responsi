@@ -19,12 +19,12 @@ class MyApp extends StatelessWidget {
       title: "Responsi PPAM",
       theme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: Colors.blue,
+        colorSchemeSeed: Colors.yellow,
         brightness: Brightness.light,
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: Colors.blue,
+        colorSchemeSeed: Colors.yellow,
         brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.light,

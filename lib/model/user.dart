@@ -10,10 +10,13 @@ class User {
   String? password;
   @HiveField(2)
   String? name;
+  @HiveField(3)
+  List<int>? favorite = [];
 
   User({
     this.email,
     this.password,
     this.name,
+    this.favorite,
   });
 }

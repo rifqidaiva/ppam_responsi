@@ -4,7 +4,7 @@ import 'package:ppam_responsi/components/icon.dart';
 import 'package:ppam_responsi/components/input.dart';
 import 'package:ppam_responsi/components/text.dart';
 import 'package:ppam_responsi/model/user.dart';
-import 'package:ppam_responsi/pages/app/page_app.dart';
+import 'package:ppam_responsi/pages/app/app.dart';
 import 'package:ppam_responsi/pages/page_register.dart';
 
 class PageLogin extends StatefulWidget {
@@ -52,22 +52,38 @@ class _PageLoginState extends State<PageLogin> {
               const SizedBox(height: 32),
               FilledButton(
                 child: const Text("Masuk"),
-                onPressed: () {
-                  var box = Hive.box<User>("user");
+                onPressed: () async {
+                  var box = await Hive.openBox<User>("user");
 
                   // cek apakah email dan password sudah terdaftar
                   if (box.values.any((element) =>
                       element.email == _emailController.text &&
                       element.password == _passwordController.text)) {
+                    var name = box.values
+                        .firstWhere(
+                          (element) => element.email == _emailController.text,
+                        )
+                        .name;
+
+                    var favorite = box.values
+                        .firstWhere(
+                          (element) => element.email == _emailController.text,
+                        )
+                        .favorite;
+
+                    box.close();
+
                     // jika sudah terdaftar, maka arahkan ke halaman utama
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const PageApp(),
+                        builder: (context) => App(
+                          email: _emailController.text,
+                        ),
                       ),
                     );
                   } else {
-                    // jika belum terdaftar, maka tampilkan pesan error
+                    box.close();
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text("Email atau password salah."),
