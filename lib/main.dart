@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ppam_responsi/model/user.dart';
 import 'package:ppam_responsi/pages/page_login.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(UserAdapter());
+  await Hive.openBox<User>('user');
+
   runApp(const MyApp());
 }
 
